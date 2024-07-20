@@ -30,3 +30,9 @@ Mobile Application: Allows users to convert sign language into text and text or 
 Generative AI Models Used:
 GPT-4: For natural language understanding and processing.
 Custom Sign Language Models: For translating spoken content into sign language and vice versa.
+
+
+Diagram :
+    Class Diagram: /Diagramme_class.jpg
+    User Case Diagram: /Diagramme_class.jpg
+    
