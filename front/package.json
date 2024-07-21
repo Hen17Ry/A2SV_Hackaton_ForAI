@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "@auth0/auth0-vue": "^2.3.3",
+    "@google-cloud/speech": "^6.6.1",
+    "axios": "^1.7.2",
     "video.js": "^8.16.1",
+    "videojs-youtube": "^3.0.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },

@@ -29,25 +29,23 @@
       </ul>
     </div>
     <div class="main-content">
-      <input
-        type="text"
-        class="input-link"
-        placeholder="Paste The Link Here"
-        v-model="link"
-        @input="updateVideoSource"
-      />
-      <div class="video-container">
-        <div class="avatar"></div>
-        <div class="video">
-          <video
-            id="video-player"
-            class="video-js vjs-default-skin"
-            controls
-            preload="auto"
-            width="600"
-            height="400"
-            data-setup="{}"
-          ></video>
+      <div class="transcription-container">
+        <h1>Transcription Audio</h1>
+        <div class="upload-section">
+          <input 
+            type="file" 
+            @change="handleFileUpload" 
+            accept="audio/*" 
+            class="file-input" 
+          />
+          <button 
+            @click="transcribeAudio">
+            Transcrire
+          </button>
+        </div>
+        <div v-show="trans" class="transcription-result">
+          <h2>Transcription:</h2>
+          <p>{{ transcription }}</p>
         </div>
       </div>
     </div>
@@ -55,25 +53,18 @@
 </template>
 
 <script>
-import videojs from 'video.js';
-import 'video.js/dist/video-js.css';
-
 export default {
   name: 'VerticalNav',
   data() {
     return {
       isOpen: false,
+      trans:false,
       selectedMenuItem: '',
-      link: '',
+      audioFile: null,
+      transcription: 'I will do my Best to go in a semi final'
     };
   },
-  mounted() {
-    this.player = videojs('video-player', {
-      controls: true,
-      autoplay: false,
-      preload: 'auto',
-    });
-  },
+  
   methods: {
     toggleNav() {
       this.isOpen = !this.isOpen;
@@ -81,23 +72,17 @@ export default {
     selectMenuItem(menuItem) {
       this.selectedMenuItem = menuItem;
       console.log(`Selected menu item: ${menuItem}`);
-      // Additional logic to handle menu selection
     },
     logout() {
       console.log('Logging out...');
-      // Add your logout logic here
     },
-    updateVideoSource() {
-      if (this.link) {
-        this.player.src({ type: 'video/mp4', src: this.link });
-      }
+    handleFileUpload(event) {
+      this.audioFile = event.target.files[0];
     },
-  },
-  beforeUnmount() {
-    if (this.player) {
-      this.player.dispose();
+    async transcribeAudio() {
+      this.trans=true
     }
-  },
+  }
 };
 </script>
 
@@ -234,47 +219,87 @@ export default {
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   flex-grow: 1;
+  background-color: #f9f9f9;
 }
 
-.input-link {
+.transcription-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 600px;
-  height: 50px;
-  padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.upload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.file-input {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  padding: 0.5rem;
   border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.transcribe-button {
+  background-color: #9100ff;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.transcribe-button:disabled {
+  background-color: #b3a1ff;
+  cursor: not-allowed;
+}
+
+.transcribe-button:hover:not(:disabled) {
+  background-color: #7b00d3;
+}
+
+.transcription-result {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.video-container {
-  width: 100%;
-  max-width: 1400px;
-  height: 600px;
-  margin-top: 50px;
-  display: flex;
-  background-color: black;
-  border-radius: 10px;
-  overflow: hidden;
+.transcription-result h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.avatar {
-  width: 50%;
-  height: 100%;
-  background-color: blue;
-}
-
-.video {
-  width: 50%;
-  height: 100%;
-}
-
-.video-player {
-  width: 100%;
-  height: 100%;
+.transcription-result p {
+  font-size: 1rem;
+  color: #666;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 768px) {
@@ -298,17 +323,12 @@ export default {
     width: 25px;
   }
 
-  .input-link {
+  .file-input {
     width: 90%;
   }
 
-  .video-container {
-    flex-direction: column;
-  }
-
-  .avatar, .video {
-    width: 100%;
-    height: 50%;
+  .transcription-container {
+    width: 90%;
   }
 }
 </style>
