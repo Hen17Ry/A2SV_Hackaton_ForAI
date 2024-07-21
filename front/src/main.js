@@ -14,7 +14,8 @@ app.use(
       domain: "dev-zxdu73mzpa1xyxh8.us.auth0.com",
       clientId: "NP4lewT9KJeSLV5ia26Uh7pocvnp6epT",
       authorizationParams: {
-        redirect_uri: window.location.origin
+        redirect_uri: "http://localhost:5173/callback",
+        screen_hint: "signup"
       }
     })
   );
