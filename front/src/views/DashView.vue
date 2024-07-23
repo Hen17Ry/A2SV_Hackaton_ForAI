@@ -38,14 +38,9 @@
             accept="audio/*" 
             class="file-input" 
           />
-          <button 
-            @click="transcribeAudio">
+          <button>
             Transcrire
           </button>
-        </div>
-        <div v-show="trans" class="transcription-result">
-          <h2>Transcription:</h2>
-          <p>{{ transcription }}</p>
         </div>
       </div>
     </div>
@@ -58,10 +53,8 @@ export default {
   data() {
     return {
       isOpen: false,
-      trans:false,
       selectedMenuItem: '',
       audioFile: null,
-      transcription: 'I will do my Best to go in a semi final'
     };
   },
   
@@ -79,9 +72,6 @@ export default {
     handleFileUpload(event) {
       this.audioFile = event.target.files[0];
     },
-    async transcribeAudio() {
-      this.trans=true
-    }
   }
 };
 </script>
